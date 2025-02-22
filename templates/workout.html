@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% block active %}
+    <li class="nav-item">
+        <a class="nav-link" href="/home">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/about">About</a></li>
+    <li class="nav-item">
+        <a class="nav-link" href="/gym_tour">Gym Tour</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/workout">Workout</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/contact">Contact Us</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+        </ul>
+    </li>
+{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            background-color: #F4C2C2; /* Page background color */
+            color: black; /* Black font color */
+            font-family: 'Arial', sans-serif;
+        }
+        .navbar {
+            background-color: black; /* Nav bar background color */
+        }
+        .navbar .nav-link, .navbar .dropdown-item {
+            color: white !important; /* Nav bar font color */
+        }
+        .workout-section {
+            margin-top: 40px; /* Increased space between sections */
+        }
+        .container {
+            background: linear-gradient(to bottom, #ffffff, #e6e6e6); /* Gradient background within container */
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .header img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px; /* Increased space between image and workout schedule */
+        }
+        .header h1 {
+            font-family: 'Century Gothic', sans-serif;
+        }
+        .header p {
+            font-size: 20px; /* Increased font size for current date and time */
+        }
+        .form-section h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 30px; /* Added spacing around headings */
+            margin-bottom: 20px; /* Added spacing around headings */
+            text-align: left;
+        }
+        .form-section h4 {
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 30px; /* Added spacing around sub-headings */
+            margin-bottom: 20px;    
+        }
+        .form-section .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            justify-content: space-between; /* Equal spacing between labels and inputs */
+        }
+        .form-section input[type="text"], .form-section input[type="number"] {
+            width: 25%;
+            padding: 10px;
+            margin: 5px 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: #d3d3d3; /* Light gray background */
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1); /* Inner shadow */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-section .comments-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .form-section .comments-group label {
+            margin-right: 5px;
+        }
+        .form-section textarea {
+            width: 40%;
+            padding: 10px;
+            margin: 5px 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: #d3d3d3; /* Light gray background */
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1); /* Inner shadow */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        .toggle-button {
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .toggle-button:hover {
+            background-color: #0056b3;
+        }
+        .workout-form {
+            display: none;
+            margin-top: 20px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .suggested-workout {
+            margin-top: 40px;
+        }
+        .suggested-workout h2 {
+            color: black; /* Color of the 7-Day Workout Plan */
+        }
+        .suggested-workout .day-plan {
+            margin-bottom: 20px;
+        }
+        .suggested-workout h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .suggested-workout ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .suggested-workout li {
+            background: #d3d3d3;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+    <div class="container mt-5">
+        <div class="header">
+            <img src="{{ url_for('static', filename='images/workout.jpg') }}" alt="Workout Image">
+            <h1>Workout Schedule</h1>
+            <p id="current-datetime-ist">Current Date and Time (IST):</p>
+            <p>Day of the Week: {{ current_day }}</p>
+        </div>
+        <div class="workout-section">
+            <div class="button-container">
+                {% for day in days %}
+                <button type="button" class="toggle-button" onclick="toggleForm('{{ day }}')">{{ day }}</button>
+                {% endfor %}
+            </div>
+            <form action="/save_workout" method="POST" class="form-section">
+                {% for day in days %}
+                <div id="workout-form-{{ day }}" class="workout-form">
+                    <h3>Cardio Training</h3>
+                    {% for i in range(6) %}
+                    <div class="form-group">
+                        <label for="cardio_{{ day }}_exercise_{{ i }}">Exercise {{ i + 1 }}:</label>
+                        <input type="text" id="cardio_{{ day }}_exercise_{{ i }}" name="cardio_{{ day }}_exercise_{{ i }}" oninput="calculateCalories('{{ day }}', 'cardio', {{ i }})">
+                        <label for="cardio_{{ day }}_duration_{{ i }}">Duration (minutes):</label>
+                        <input type="number" id="cardio_{{ day }}_duration_{{ i }}" name="cardio_{{ day }}_duration_{{ i }}" oninput="calculateCalories('{{ day }}', 'cardio', {{ i }})">
+                        <p>Calories: <span id="cardio_{{ day }}_calories_{{ i }}">0</span></p>
+                    </div>
+                    {% endfor %}
+                    <div class="comments-group">
+                        <label for="cardio_{{ day }}_comments">Comments:</label>
+                        <textarea id="cardio_{{ day }}_comments" name="cardio_{{ day }}_comments"></textarea>
+                    </div>
+                    
+                    <h3>Weight Training</h3>
+                    {% for i in range(6) %}
+                    <div class="form-group">
+                        <label for="weight_{{ day }}_exercise_{{ i }}">Exercise {{ i + 1 }}:</label>
+                        <input type="text" id="weight_{{ day }}_exercise_{{ i }}" name="weight_{{ day }}_exercise_{{ i }}" oninput="calculateCalories('{{ day }}', 'weight', {{ i }})">
+                        <label for="weight_{{ day }}_sets_{{ i }}">Sets:</label>
+                        <input type="number" id="weight_{{ day }}_sets_{{ i }}" name="weight_{{ day }}_sets_{{ i }}" oninput="calculateCalories('{{ day }}', 'weight', {{ i }})">
+                        <p>Calories: <span id="weight_{{ day }}_calories_{{ i }}">0</span></p>
+                    </div>
+                    {% endfor %}
+                    <div class="comments-group">
+                        <label for="weight_{{ day }}_comments">Comments:</label>
+                        <textarea id="weight_{{ day }}_comments" name="weight_{{ day }}_comments"></textarea>
+                    </div>
+                    
+                    <h3>Cooldown/Stretch</h3>
+                    {% for i in range(6) %}
+                    <div class="form-group">
+                        <label for="cooldown_{{ day }}_exercise_{{ i }}">Exercise {{ i + 1 }}:</label>
+                        <input type="text" id="cooldown_{{ day }}_exercise_{{ i }}" name="cooldown_{{ day }}_exercise_{{ i }}" oninput="calculateCalories('{{ day }}', 'cooldown', {{ i }})">
+                        <label for="cooldown_{{ day }}_duration_{{ i }}">Duration (minutes):</label>
+                        <input type="number" id="cooldown_{{ day }}_duration_{{ i }}" name="cooldown_{{ day }}_duration_{{ i }}" oninput="calculateCalories('{{ day }}', 'cooldown', {{ i }})">
+                        <p>Calories: <span id="cooldown_{{ day }}_calories_{{ i }}">0</span></p>
+                    </div>
+                    {% endfor %}
+                    <div class="comments-group">
+                        <label for="cooldown_{{ day }}_comments">Comments:</label>
+                        <textarea id="cooldown_{{ day }}_comments" name="cooldown_{{ day }}_comments"></textarea>
+                    </div>
+                </div>
+                {% endfor %}
+                
+                <button type="submit" class="btn btn-primary">Save Workout</button>
+            </form>
+        </div>
+        <div class="suggested-workout">
+            <h2>7-Day Workout Plan</h2>
+            <div class="button-container">
+                {% for day in suggested_workout_plan %}
+                <button type="button" class="toggle-button" onclick="toggleSuggestedWorkout('{{ day }}')">{{ day }}</button>
+                {% endfor %}
+            </div>
+            {% for day, plan in suggested_workout_plan.items() %}
+            <div id="suggested-workout-{{ day }}" class="day-plan" style="display: none;">
+                <h3>{{ day }}</h3>
+                <ul>
+                    {% for exercise in plan %}
+                    <li>{{ exercise }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        // Convert UTC time to IST on the client side
+        function convertToIST() {
+            const utcTime = new Date('{{ current_datetime }} UTC');
+            const istTime = new Date(utcTime.toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            document.getElementById('current-datetime-ist').textContent = 'Current Date and Time (IST): ' + istTime.toLocaleString('en-IN', options);
+        }
+
+        function toggleForm(day) {
+            const days = {{ days | tojson }};
+            days.forEach(d => {
+                const form = document.getElementById(`workout-form-${d}`);
+                if (d === day) {
+                    form.style.display = "block";
+                } else {
+                    form.style.display = "none";
+                }
+            });
+        }
+
+        function toggleSuggestedWorkout(day) {
+            const days = {{ suggested_workout_plan.keys() | list | tojson }};
+            days.forEach(d => {
+                const workout = document.getElementById(`suggested-workout-${d}`);
+                if (d === day) {
+                    workout.style.display = "block";
+                } else {
+                    workout.style.display = "none";
+                }
+            });
+        }
+
+        function calculateCalories(day, type, index) {
+            const exercise = document.getElementById(`${type}_${day}_exercise_${index}`).value;
+            const duration = parseFloat(document.getElementById(`${type}_${day}_duration_${index}`).value) || 0;
+            let calories = 0;
+            
+            // Simple calorie calculation logic (this can be replaced with a more accurate formula)
+            if (type === 'cardio') {
+                calories = duration * 8; // Example: 8 calories per minute
+            } else if (type === 'weight') {
+                calories = duration * 6; // Example: 6 calories per set
+            } else if (type === 'cooldown') {
+                calories = duration * 4; // Example: 4 calories per minute
+            }
+
+            document.getElementById(`${type}_${day}_calories_${index}`).textContent = calories.toFixed(2);
+        }
+
+        // Call the function to convert and display the IST time
+        convertToIST();
+    </script>
+{% endblock %}

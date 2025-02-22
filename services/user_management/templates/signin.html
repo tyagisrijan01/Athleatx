@@ -1,0 +1,113 @@
+{% extends "base.html" %} {% block navbar %}{% endblock %} {% block body %}
+
+ <div class="container two-columns full-height">
+        <div class="intro">
+            <div class="intro-content">
+                <style>
+                    .intro {
+                  	padding: 10px;
+                        background-image: url('/static/images/intro.png');
+			background-size: contain; /* Ensures the image fits within the container */
+                        background-position: center; /* Centers the image */
+                        background-repeat: no-repeat; /* Prevents the image from repeating */
+                        color: white; /* Adjust text color for better visibility */
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        text-align: center;
+                    }
+                    .intro-content {
+                        background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background */
+                        padding: 10px;
+                        border-radius: 10px;
+                    }
+                    .title {
+                        margin-bottom: 10px;
+                        padding: 10px;
+                        background-color: rgba(255, 255, 255, 0.7); /* Light background for highlighting */
+                        color: #333; /* Dark text color for better readability */
+                        border-radius: 5px;
+                    }
+                    .intro-lead {
+                        margin-bottom: 10px;
+                        padding: 10px;
+                        background-color: rgba(255, 255, 255, 0.7); /* Light background for highlighting */
+                        color: #333; /* Dark text color for better readability */
+                        border-radius: 5px;
+                    }
+		    .welcome {
+                        background-image: url('/static/images/bg.png');
+			background-size: contain; /* Ensures the image fits within the container */
+                        background-position: center; /* Centers the image */
+                        background-repeat: repeat; /* Prevents the image from repeating */
+                        padding: 20px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        text-align: center;
+                    }
+	
+                </style>
+
+                <h1 class="title">Never lose track</h1>
+                <p class="intro-lead">
+                    For those who want to focus only on performing their absolute best. Have your
+                    exercises, weights, and machine adjustments for multiple workouts, all in one place,
+                    so you can get straight to work!
+                </p>
+            </div>
+        </div>
+
+        <div class="welcome">
+            <div class="welcome-top">
+                <img class="welcome-image" src="/static/images/logo-nobg.png" alt="ATHLEATX Workout Logo" />
+                <div class="welcome-headline">
+                    <h1 class="title">Sign in to ATHLEATX</h1>
+                    <p class="welcome-lead" style="color: black;">Welcome back! Please enter your details.</p>
+                <p class="welcome-bottom" style="color: black; text-align: center;">Don't have an account?
+		<a class="text-primary" href="/user/register">Sign up</a></p>
+                </div>
+                <form class="welcome-form" action="/user/login" method="POST">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    {% if category == "error" %}
+                    <div class="alert alert-error show" role="alert">
+                        <span>{{ message }}</span>
+                        <button type="button" class="alert-close">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success show" role="alert">
+                        <span>{{ message }}</span>
+                        <button type="button" class="alert-close">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <div class="input-with-icon">
+                        <input class="text-input" type="email" placeholder="Email" name="email" maxlength="50" required />
+                        <i class="input-icon fa-solid fa-envelope"></i>
+                    </div>
+                    <div class="input-with-icon">
+                        <input class="text-input" type="password" placeholder="Password" name="password" maxlength="50"
+                            required />
+                        <i class="input-icon fa-solid fa-lock"></i>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Sign in</button>
+                </form>
+        </div>
+    </div>
+
+
+    <!-- JavaScript -->
+    <script type="text/javascript" src="/static/js/alert.js"></script>
+
+
+{% endblock %}

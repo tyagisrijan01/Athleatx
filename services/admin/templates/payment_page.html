@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block body %}
+<div class="container mt-5 text-white">
+  <h3 class="text-center mb-4">Payment for Membership</h3>
+
+  <p><strong>Membership ID:</strong> {{ payload.membership_id }}</p>
+  <p><strong>Total Amount:</strong> ${{ payload.total_amount }}</p>
+
+  <!-- Payment Form -->
+  <form action="/memberships/process_payment" method="POST">
+    <input type="hidden" name="membership_id" value="{{ membership_id }}" />
+    <input type="hidden" name="user_id" value="{{ user_id }}" />
+    <input type="hidden" name="amount" value="{{ total_amount }}" />
+
+    <div class="mb-3">
+      <label for="status" class="form-label">Payment Status</label>
+      <select name="status" id="status" class="form-select">
+        <option value="completed">Completed</option>
+        <option value="pending">Pending</option>
+        <option value="failed">Failed</option>
+      </select>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">Submit Payment</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

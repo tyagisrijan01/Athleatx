@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Gym Tour{% endblock %}
+
+{% block head %}
+<style>
+    body {
+        background-color: #F4C2C2; /* Page background color */
+        color: black; /* Black font color */
+        font-family: 'Arial', sans-serif;
+    }
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px; /* Add space between images */
+    }
+    .gallery-item {
+        flex: 1 1 200px; /* Make the items flexible and set a minimum width */
+    }
+    .gallery-item img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px; /* Optional: Add rounded corners to images */
+    }
+</style>
+{% endblock %}
+
+{% block active %}
+    <li class="nav-item">
+        <a class="nav-link" href="/home">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/about">About</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/gym_tour">Gym Tour</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/workout">Workout</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/contact">Contact Us</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+        </ul>
+    </li>
+{% endblock %}
+
+{% block content %}
+<div class="container gym-tour-page">
+    <h2>Gym Tour</h2>
+    <div class="gallery">
+        {% for item in gallery_items %}
+            <div class="gallery-item">
+                <img src="{{ url_for('static', filename=item.src) }}" alt="{{ item.alt }}">
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

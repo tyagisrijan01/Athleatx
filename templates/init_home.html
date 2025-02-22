@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block active %}
+    <li class="nav-item">
+        <a class="nav-link active" href="/home">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/about">About</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/gym_tour">Gym Tour</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/workout">Workout</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/contact">Contact Us</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Profile
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+        </ul>
+    </li>
+{% endblock %}
+
+{% block body %}
+    <div class="cover">
+        <div class="cover-content">
+            <style>
+                .slideshow-container {
+                    position: relative;
+                    width: 100%;
+                    max-width: 100%;
+                    margin: auto;
+                    overflow: hidden;
+                    height: 70vh; /* Decreased height by 40% */
+                }
+  		.slides {
+                    display: none;
+                    width: 100%;
+                    height: 100%; /* Ensure slides fill the container height */
+                }
+                .slides img {
+                    width: 100%;
+                    height: 100%; /* Ensure images fill the slide height */
+                    object-fit: cover; /* Maintain aspect ratio */
+                    vertical-align: middle;
+                }
+                .cover {
+                    width: 100%;
+                    height: 80%;
+                    background-image: url('/static/images/cover.jpg');
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    color: white;
+                    z-index: -1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                }
+                .cover-content {
+                    background-color: rgba(0, 0, 0, 0.5);
+                    padding: 10px;
+                    border-radius: 10px;
+                }
+            </style>
+ <h1 class="title; font-family:verdana; color:#000000;">ATHLEATX Fitness and Gym 24X7</h1>
+            <p class="cover-lead" style="color: White;">Find Your Strength</p>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" style="padding: 120px 0; background-color: #D3D3D3;">
+        <div class="container">
+            <h1 style="font-size: 36px; font-family: 'Montserrat', sans-serif; color: #D2042D;">About Us</h1>
+            <br>
+            <br>
+            <p style="font-size: 20px; font-family: 'Century Gothic', serif; color: #D2042D;">Welcome to ATHLEATX Fitness and Gym 24X7, where we believe in finding your strength and achieving your fitness goals. <br><br> Offering the opportunity to stay healthy to people from all walks of life, Athleatx offers avant-garde equipment and the latest fitness trends to keep you motivated, no matter your level of fitness.<br><br> Our state-of-the-art facility is open 24/7 to accommodate your busy schedule. Our experienced trainers and staff are here to support and guide you on your fitness journey.</p>
+        </div>
+    </section>
+
+
+    <!-- Another Picture -->
+    <div class="cover" style="background-image: url('/static/images/another-picture.jpg'); height: 60%;">
+        <div class="cover-content">
+            <h2 class="title">Join Us Today!</h2>
+            <p class="cover-lead" style="color: White;">Be a part of our fitness community</p>
+        </div>
+    </div>
+
+    <!-- Memberships Section -->
+    <section id="memberships" style="padding: 50px 0; background-color: #000000;">
+        <div class="container">
+            <h2>Membership Plans</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Basic Plan</h3>
+                            <p>$20 per month</p>
+                            <ul>
+                                <li>Access to all gym equipment</li>
+                                <li>Free fitness assessment</li>
+                                <li>Access to locker rooms</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Standard Plan</h3>
+                            <p>$35 per month</p>
+                            <ul>
+                                <li>All benefits of Basic Plan</li>
+                                <li>Access to all group classes</li>
+                                <li>1 personal training session per month</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Premium Plan</h3>
+                            <p>$50 per month</p>
+                            <ul>
+                                <li>All benefits of Standard Plan</li>
+                                <li>Unlimited personal training sessions</li>
+                                <li>Access to VIP lounge</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<script>
+    let slideIndex = 0;
+
+    function showSlides() {
+        const slides = document.querySelectorAll('.slide');
+        const slider = document.querySelector('.slider');
+        
+        slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+    }
+
+    function plusSlides(n) {
+        const slides = document.querySelectorAll('.slide');
+        slideIndex += n;
+
+        if (slideIndex >= slides.length) { slideIndex = 0; }
+        if (slideIndex < 0) { slideIndex = slides.length - 1; }
+
+        showSlides();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        showSlides();
+    });
+</script>
+
+    {% endif %}
+{% endblock %}

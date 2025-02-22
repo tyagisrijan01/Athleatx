@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block active %}
+    <li class="nav-item">
+        <a class="nav-link" href="/init_home">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/about.html">About</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/gym_tour">Gym Tour</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/workout">Workout</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/contact">Contact Us</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Profile
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+        </ul>
+    </li>
+{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            background: linear-gradient(to bottom, #d3d3d3, #a9a9a9); /* Light gray to dark gray */
+            color: black; /* Black font color */
+        }
+        .contact-details {
+            font-family: 'Arial', sans-serif;
+            color: black; /* Black font color */
+        }
+        .contact-details a {
+            color: black; /* Black font color */
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+    <div class="container mt-5">
+        <h1>Contact Us</h1>
+        <img src="/static/images/contact_us.jpg" alt="Contact Us" class="img-fluid mb-4">
+        <form action="/send_message" method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Message</label>
+                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+        <div class="contact-details mt-5">
+            <h2 style="color: black;">Our Contact Details</h2>
+            <p><strong>Phone:</strong> +1 234 567 890</p>
+            <p><strong>Email:</strong> contact@athleatax.com</p>
+            <p><strong>Instagram:</strong> <a href="https://www.instagram.com/athleatax" target="_blank">@athleatax</a></p>
+        </div>
+        <div class="map mt-5">
+            <h2 style="color: black;">Our Location</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3165.4867337395556!2d-122.08424908531014!3d37.42206577982366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb5e0f8ba1e3b%3A0x4e1e0c7c3c5b5e0e!2sGoogleplex!5e0!3m2!1sen!2sus!4v1618781875589!5m2!1sen!2sus" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+{% endblock %}

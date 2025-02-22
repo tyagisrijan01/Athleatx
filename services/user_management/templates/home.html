@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block active %}
+<li class="nav-item">
+    <a class="nav-link active" href="/home">Home</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link active" href="/about">About</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link active" href="/gym_tour">Gym Tour</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link active" href="/workout">Workout</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/contact">Contact Us</a>
+</li>
+<li class="nav-item dropdown mr-3">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        {{user.email}}
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+        <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+    </ul>
+</li>
+{% endblock %}
+
+{% block body %}
+<div class="cover">
+    <div class="cover-content">
+        <style>
+            .slider-container {
+                position: relative;
+                max-width: 1000px;
+                margin: auto;
+                overflow: hidden;
+            }
+
+            .slider {
+                display: flex;
+                transition: transform 0.5s ease-in-out;
+            }
+
+            .slide {
+                min-width: 100%;
+                box-sizing: border-box;
+            }
+
+            .slide img {
+                width: 100%;
+                vertical-align: middle;
+            }
+
+            .slider-nav {
+                position: absolute;
+                top: 50%;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                transform: translateY(-50%);
+            }
+
+            .prev,
+            .next {
+                cursor: pointer;
+                background-color: rgba(0, 0, 0, 0.5);
+                color: white;
+                padding: 20px;
+                font-size: 18px;
+                border-radius: 50%;
+                user-select: none;
+            }
+
+            .prev:hover,
+            .next:hover {
+                background-color: rgba(0, 0, 0, 0.8);
+            }
+
+            .cover {
+                width: 100%;
+                height: 80%;
+                background-image: url('/static/images/cover.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                color: white;
+                z-index: -1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            .cover-content {
+                background-color: rgba(0, 0, 0, 0.5);
+                padding: 10px;
+                border-radius: 10px;
+            }
+        </style>
+        <h1 class="title; font-family:verdana; color:#000000;">ATHLEATX Fitness and Gym 24X7</h1>
+        <p class="cover-lead" style="color: White;">Find Your Strength</p>
+    </div>
+</div>
+
+<!-- About Section -->
+<section id="about" style="padding: 120px 0; background-color: #D3D3D3;">
+    <div class="container">
+        <h1 style="font-size: 36px; font-family: 'Montserrat', sans-serif; color: #D2042D;">About Us</h1>
+        <br>
+        <br>
+        <p style="font-size: 20px; font-family: 'Century Gothic', serif; color: #D2042D;">Welcome to ATHLEATX Fitness
+            and Gym 24X7, where we believe in finding your strength and achieving your fitness goals. <br><br> Offering
+            the opportunity to stay healthy to people from all walks of life, Athleatx offers avant-garde equipment and
+            the latest fitness trends to keep you motivated, no matter your level of fitness.<br><br> Our
+            state-of-the-art facility is open 24/7 to accommodate your busy schedule. Our experienced trainers and staff
+            are here to support and guide you on your fitness journey.</p>
+    </div>
+</section>
+
+<!-- Image Slider Section -->
+<section id="slider" style="padding: 50px; background-color: #D2042D;">
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slide">
+                <img src="/static/images/one.jpg" alt="Slide 1">
+            </div>
+            <div class="slide">
+                <img src="/static/images/two.jpg" alt="Slide 2">
+            </div>
+            <div class="slide">
+                <img src="/static/images/three.jpg" alt="Slide 3">
+            </div>
+            <div class="slide">
+                <img src="/static/images/four.jpg" alt="Slide 4">
+            </div>
+        </div>
+        <div class="slider-nav">
+            <span class="prev" onclick="plusSlides(-1)">&#10094;</span>
+            <span class="next" onclick="plusSlides(1)">&#10095;</span>
+        </div>
+    </div>
+</section>
+
+
+<!-- Another Picture -->
+<div class="cover" style="background-image: url('/static/images/another-picture.jpg'); height: 60%;">
+    <div class="cover-content">
+        <h2 class="title">Join Us Today!</h2>
+        <p class="cover-lead" style="color: White;">Be a part of our fitness community</p>
+    </div>
+</div>
+
+<!-- Memberships Section -->
+<section id="memberships" style="padding: 50px 0; background-color: #000000;">
+    <div class="container">
+        <h2>Membership Plans</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <form action="/memberships" method="GET">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Basic Plan</h3>
+                            <p>$20 per month</p>
+                            <ul>
+                                <li>Access to all gym equipment</li>
+                                <li>Free fitness assessment</li>
+                                <li>Access to locker rooms</li>
+                            </ul>
+                            <input class="btn btn-primary" type="submit" value="Buy Now">
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-4">
+                </form>
+                <form action="/memberships" method="GET">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Standard Plan</h3>
+                            <p>$35 per month</p>
+                            <ul>
+                                <li>All benefits of Basic Plan</li>
+                                <li>Access to all group classes</li>
+                                <li>1 personal training session per month</li>
+                            </ul>
+                            <input class="btn btn-primary" type="submit" value="Buy Now">
+                        </div>
+                    </div>
+            </div>
+            </form>
+            <div class="col-md-4">
+                <form action="/memberships" method="GET">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Premium Plan</h3>
+                            <p>$50 per month</p>
+                            <ul>
+                                <li>All benefits of Standard Plan</li>
+                                <li>Unlimited personal training sessions</li>
+                                <li>Access to VIP lounge</li>
+                            </ul>
+                            <input class="btn btn-primary" type="submit" value="Buy Now">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    let slideIndex = 0;
+
+    function showSlides() {
+        const slides = document.querySelectorAll('.slide');
+        const slider = document.querySelector('.slider');
+
+        slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+    }
+
+    function plusSlides(n) {
+        const slides = document.querySelectorAll('.slide');
+        slideIndex += n;
+
+        if (slideIndex >= slides.length) { slideIndex = 0; }
+        if (slideIndex < 0) { slideIndex = slides.length - 1; }
+
+        showSlides();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        showSlides();
+    });
+</script>
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,203 @@
+{% extends "base.html" %} {% block body %}
+<div class="container rounded-3 mt-5 text-white bg-dark">
+  <h3 class="text-center my-5 py-4">Membership Plans</h3>
+
+  <!-- Tabs for Memberships -->
+  <ul class="nav nav-tabs" id="membershipTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link active text-white"
+        id="basic-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#basic"
+        type="button"
+        role="tab"
+        aria-controls="basic"
+        aria-selected="true"
+        onclick="updateMembershipInfo('basic', 20)"
+      >
+        Basic Plan
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link text-white"
+        id="standard-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#standard"
+        type="button"
+        role="tab"
+        aria-controls="standard"
+        aria-selected="false"
+        onclick="updateMembershipInfo('standard', 35)"
+      >
+        Standard Plan
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link text-white"
+        id="premium-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#premium"
+        type="button"
+        role="tab"
+        aria-controls="premium"
+        aria-selected="false"
+        onclick="updateMembershipInfo('premium', 50)"
+      >
+        Premium Plan
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content mt-4" id="membershipTabsContent">
+    <!-- Basic Plan -->
+    <div
+      class="tab-pane fade show active"
+      id="basic"
+      role="tabpanel"
+      aria-labelledby="basic-tab"
+    >
+      <h3>Basic Plan</h3>
+      <p>$20 per month</p>
+      <ul>
+        <li>Access to all gym equipment</li>
+        <li>Free fitness assessment</li>
+        <li>Access to locker rooms</li>
+      </ul>
+      <div class="d-flex align-items-center">
+        <span id="basic-counter">1</span> month(s) | Total: $<span
+          id="basic-total"
+          >20</span
+        >
+      </div>
+      <form method="POST" action="/memberships/payment" id="basic-form">
+        <input
+          type="hidden"
+          name="membership_id"
+          id="membership-id-basic"
+          value="1"
+        />
+        <input
+          type="hidden"
+          name="user_id"
+          id="user-id-basic"
+          value="{{ session.get('id') }}"
+        />
+        <input type="hidden" name="total_amount" id="total-amount-basic" value="20" />
+        <input type="hidden" name="order_id" id="order-id-basic" />
+        <div id="paypal-button-container-basic"></div>
+      </form>
+    </div>
+
+    <!-- Standard Plan -->
+    <div
+      class="tab-pane fade"
+      id="standard"
+      role="tabpanel"
+      aria-labelledby="standard-tab"
+    >
+      <h3>Standard Plan</h3>
+      <p>$35 per month</p>
+      <ul>
+        <li>All benefits of Basic Plan</li>
+        <li>Access to all group classes</li>
+        <li>1 personal training session per month</li>
+      </ul>
+      <div class="d-flex align-items-center">
+        <span id="standard-counter">1</span> month(s) | Total: $<span
+          id="standard-total"
+          >35</span
+        >
+      </div>
+      <form method="POST" action="/memberships/payment" id="standard-form">
+        <input
+          type="hidden"
+          name="membership_id"
+          id="membership-id-standard"
+          value="2"
+        />
+        <input
+          type="hidden"
+          name="user_id"
+          id="user-id-standard"
+          value="{{ session.get('id') }}"
+        />
+        <input type="hidden" name="total_amount" id="total-amount-standard" value="35" />
+        <input type="hidden" name="order_id" id="order-id-standard" />
+        <div id="paypal-button-container-standard"></div>
+      </form>
+    </div>
+
+    <!-- Premium Plan -->
+    <div
+      class="tab-pane fade"
+      id="premium"
+      role="tabpanel"
+      aria-labelledby="premium-tab"
+    >
+      <h3>Premium Plan</h3>
+      <p>$50 per month</p>
+      <ul>
+        <li>All benefits of Standard Plan</li>
+        <li>Unlimited personal training sessions</li>
+        <li>Access to VIP lounge</li>
+      </ul>
+      <div class="d-flex align-items-center">
+        <span id="premium-counter">1</span> month(s) | Total: $<span
+          id="premium-total"
+          >50</span
+        >
+      </div>
+      <form method="POST" action="/memberships/payment" id="premium-form">
+        <input
+          type="hidden"
+          name="membership_id"
+          id="membership-id-premium"
+          value="3"
+        />
+        <input
+          type="hidden"
+          name="user_id"
+          id="user-id-premium"
+          value="{{ session.get('id') }}"
+        />
+        <input type="hidden" name="total_amount" id="total-amount-premium" value="50" />
+        <input type="hidden" name="order_id" id="order-id-premium" />
+        <div id="paypal-button-container-premium"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+<script>
+  function setupPayPalButton(plan, amount) {
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: amount
+            }
+          }]
+        }).then(function(orderID) {
+          document.getElementById('order-id-' + plan).value = orderID;
+          return orderID;
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          alert('Transaction completed by ' + details.payer.name.given_name);
+          document.getElementById(plan + '-form').submit();
+        });
+      }
+    }).render('#paypal-button-container-' + plan);
+  }
+
+  setupPayPalButton('basic', '20');
+  setupPayPalButton('standard', '35');
+  setupPayPalButton('premium', '50');
+</script>
+{% endblock %}

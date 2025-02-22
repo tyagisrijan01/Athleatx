@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}About AthleatX{% endblock %}
+
+{% block head %}
+<style>
+    body {
+        background-color: #F4C2C2; /* Page background color */
+        color: black; /* Black font color */
+        font-family: 'Arial', sans-serif;
+    }
+    .about-section {
+        padding: 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .about-section h2 {
+        font-family: 'Century Gothic', sans-serif;
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+    .about-section p {
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+    .feedback {
+        background: #e6e6e6;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    .feedback h3 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .feedback p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+</style>
+{% endblock %}
+
+{% block active %}
+    <li class="nav-item">
+        <a class="nav-link" href="/home">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/about">About</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/gym_tour">Gym Tour</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/workout">Workout</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/contact">Contact Us</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+        </ul>
+    </li>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="about-section">
+        <h2>About AthleatX Fitness Center</h2>
+        <p>Welcome to AthleatX Fitness Center! Our fitness center is dedicated to providing a safe and welcoming environment for everyone to achieve their fitness goals. Established in [Year], we have grown to become one of the most respected fitness centers in the region.</p>
+        <p>Our facility is operational 24x7, ensuring that you can work out at your convenience. Whether you are an early bird or a night owl, our doors are always open for you.</p>
+        
+        <div class="feedback">
+            <h3>What Our Clients Say</h3>
+            <p>"AthleatX Fitness Center has completely transformed my fitness journey. The trainers are knowledgeable and supportive, and the facilities are top-notch." - [Client Name]</p>
+            <p>"I love the 24x7 access to the gym. It fits perfectly with my busy schedule. Highly recommend AthleatX Fitness Center!" - [Client Name]</p>
+        </div>
+        
+        <h2>Recognitions</h2>
+        <p>AthleatX Fitness Center has been recognized at various state and national levels for our commitment to excellence in fitness and customer service. Our awards and recognitions include:</p>
+        <ul>
+            <li>Best Fitness Center Award - [Year]</li>
+            <li>Excellence in Customer Service - [Year]</li>
+            <li>Top Trainer Awards - [Year]</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

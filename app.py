@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, g
 from datetime import datetime
-from app import db
+from models import db, User, Message, Workout  # Import the models
 
 def create_app():
     app = Flask(__name__)
@@ -95,7 +95,7 @@ def send_message():
     name = request.form['name']
     email = request.form['email']
     message = request.form['message']
-
+    
     # Create a new Message object and save it to the database
     new_message = Message(name=name, email=email, message=message)
     db.session.add(new_message)
@@ -106,6 +106,14 @@ def send_message():
 
 @app.route('/save_workout', methods=['POST'])
 def save_workout():
+    user_id = 1  # Replace with the actual user ID
+    workout_data = request.form['workout_data']
+    
+    # Create a new Workout object and save it to the database
+    new_workout = Workout(user_id=user_id, workout_data=workout_data)
+    db.session.add(new_workout)
+    db.session.commit()
+    
     flash('Your workout has been saved successfully!', 'success')
     return redirect(url_for('workout'))
 

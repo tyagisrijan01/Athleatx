@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, g
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from app.models import db, User, Message, Workout  # Import the models
+
+db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
@@ -14,6 +16,9 @@ def create_app():
     app.register_blueprint(user_bp)
     from services.admin.memberships import memberships_bp
     app.register_blueprint(memberships_bp)
+
+    with app.app_context():
+        db.create_all()
 
     return app
 
@@ -127,9 +132,6 @@ def process_signin():
     else:
         flash('Invalid username or password', 'danger')
         return redirect(url_for('signin'))
-
-with app.app_context():
-    db.create_all()
 
 if __name__ == "__main__":
     app.run(debug=True)

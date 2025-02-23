@@ -95,6 +95,12 @@ def send_message():
     name = request.form['name']
     email = request.form['email']
     message = request.form['message']
+
+    # Create a new Message object and save it to the database
+    new_message = Message(name=name, email=email, message=message)
+    db.session.add(new_message)
+    db.session.commit()
+    
     flash('Your message has been sent successfully!', 'success')
     return redirect(url_for('contact'))
 

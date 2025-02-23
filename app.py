@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, g
 from datetime import datetime
-from models import db, User, Message, Workout  # Import the models
+from app.models import db, User, Message, Workout  # Import the models
 
 def create_app():
     app = Flask(__name__)
